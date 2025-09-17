@@ -1,41 +1,56 @@
-module_enable_status:                 # Only keep essential modules enabled
+module_enable_status:
   blc: True
   awb: True
   cfa: True
   ccm: True
   gac: True
+  csc: True
+  nlm: True        # noise processing (after demosaic)
+  eeh: True        # edge enhancement
+  
 
 hardware:
-  raw_width: 1920
-  raw_height: 1080
-  raw_bit_depth: 10
+  raw_width: 3000
+  raw_height: 2000
+  raw_bit_depth: 14
   bayer_pattern: rggb
 
 # -------------------- Module Algorithms Parameters --------------------
 
 blc:
-  bl_r:   0                       # adjust for your sensor
-  bl_gr:  0
-  bl_gb: 0
-  bl_b: 0
-  alpha: 0                           # optional offset scaling (x1024)
-  beta: 0                            # optional slope (x1024)
+  bl_r: 64                         # sensor black level (approx for 10-bit)
+  bl_gr: 64
+  bl_gb: 64
+  bl_b: 64
+  alpha: 0
+  beta: 0
 
 cfa:
-  mode: bilinear                        # malvar = higher quality; bilinear = faster
+  mode: malvar                     # higher quality demosaic
 
 awb:
-  r_gain: &r_gain 500                # x1024
-  gr_gain: 250                      # x1024
-  gb_gain: 250                       # x1024
-  b_gain: &b_gain 300
+  r_gain: &r_gain 2415                # x1024
+  gr_gain: 1024                       # x1024
+  gb_gain: 1024                       # x1024
+  b_gain: &b_gain 1168                    # boosts blue relative to green
 
 ccm:
   ccm:
-    - [ 1670, -508, -139, 0 ]         # x1024, copied from dcraw.c
-    - [ -20, 1404, -360, 0 ]
-    - [ 58, -406, 1372, 0 ]
+    - [ 1670, -508, -139, 0 ]      # approx from dcraw
+    - [  -20, 1404, -360, 0 ]
+    - [   58, -406, 1372, 0 ]
+
+nlm:
+  search_window_size: 7
+  patch_size: 3
+  h: 12                            # smoothing strength
+
+eeh:
+  edge_gain: 384                   # sharpening factor (~1.5×)
+  flat_threshold: 4
+  edge_threshold: 8
+  delta_threshold: 64
 
 gac:
-  gain: 256                           # x256 global gain
-  gamma: 0.75                     # ~sRGB gamma curve
+  gain: 256
+  gamma: 0.45                      # sRGB-like gamma
