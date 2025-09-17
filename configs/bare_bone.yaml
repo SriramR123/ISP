@@ -1,0 +1,41 @@
+module_enable_status:                 # Only keep essential modules enabled
+  blc: True
+  awb: True
+  cfa: True
+  ccm: True
+  gac: True
+
+hardware:
+  raw_width: 1920
+  raw_height: 1080
+  raw_bit_depth: 10
+  bayer_pattern: rggb
+
+# -------------------- Module Algorithms Parameters --------------------
+
+blc:
+  bl_r:   0                       # adjust for your sensor
+  bl_gr:  0
+  bl_gb: 0
+  bl_b: 0
+  alpha: 0                           # optional offset scaling (x1024)
+  beta: 0                            # optional slope (x1024)
+
+cfa:
+  mode: bilinear                        # malvar = higher quality; bilinear = faster
+
+awb:
+  r_gain: &r_gain 500                # x1024
+  gr_gain: 250                      # x1024
+  gb_gain: 250                       # x1024
+  b_gain: &b_gain 300
+
+ccm:
+  ccm:
+    - [ 1670, -508, -139, 0 ]         # x1024, copied from dcraw.c
+    - [ -20, 1404, -360, 0 ]
+    - [ 58, -406, 1372, 0 ]
+
+gac:
+  gain: 256                           # x256 global gain
+  gamma: 0.75                     # ~sRGB gamma curve
