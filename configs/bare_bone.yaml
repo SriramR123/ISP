@@ -10,29 +10,29 @@ module_enable_status:
   
 
 hardware:
-  raw_width: 3000
-  raw_height: 2000
+  raw_width: 6080
+  raw_height: 4044
   raw_bit_depth: 14
   bayer_pattern: rggb
 
 # -------------------- Module Algorithms Parameters --------------------
 
 blc:
-  bl_r: 64                         # sensor black level (approx for 10-bit)
-  bl_gr: 64
-  bl_gb: 64
-  bl_b: 64
+  bl_r:  5                         # sensor black level (approx for 10-bit)
+  bl_gr: 5
+  bl_gb: 5
+  bl_b: 5
   alpha: 0
   beta: 0
 
-cfa:
-  mode: malvar                     # higher quality demosaic
-
 awb:
-  r_gain: &r_gain 2415                # x1024
+  r_gain: &r_gain 2689                # x1024
   gr_gain: 1024                       # x1024
   gb_gain: 1024                       # x1024
-  b_gain: &b_gain 1168                    # boosts blue relative to green
+  b_gain: &b_gain 1294 
+
+cfa:
+  mode: malvar                     # higher quality demosaic                  # boosts blue relative to green
 
 ccm:
   ccm:
@@ -40,10 +40,14 @@ ccm:
     - [  -20, 1404, -360, 0 ]
     - [   58, -406, 1372, 0 ]
 
+gac:
+  gain: 256
+  gamma: 0.42   
+
 nlm:
-  search_window_size: 7
+  search_window_size: 9
   patch_size: 3
-  h: 12                            # smoothing strength
+  h: 10                            # smoothing strength
 
 eeh:
   edge_gain: 384                   # sharpening factor (~1.5×)
@@ -51,6 +55,6 @@ eeh:
   edge_threshold: 8
   delta_threshold: 64
 
-gac:
-  gain: 256
-  gamma: 0.45                      # sRGB-like gamma
+                   # sRGB-like gamma
+
+    # Boost parameters for exaggeration effect
